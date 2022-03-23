@@ -5,14 +5,16 @@ import React, { useState } from 'react';
 
 const queryClient = new QueryClient();
 
-const fetchPlanets = async (page) => {
-  const response = await axios.get(`http://swapi.dev/api/planets/?page=${page}`);
-  return response
+const fetchPlanets = async page => {
+  const response = await axios.get(
+    `https://swapi.dev/api/planets/?page=${page}`,
+  );
+  return response;
 };
 
 function Planets() {
   const [page, setPage] = useState(1);
-  const { data, status, isPreviousData ,isFetching} = useQuery(
+  const { data, status, isPreviousData, isFetching } = useQuery(
     ['planets', page],
     () => fetchPlanets(page),
     {
@@ -27,8 +29,12 @@ function Planets() {
     <>
       <div>
         <h2>Planets</h2>
-        {status === 'error' && <div className='loading'>Error fetching data</div>}
-        {status === 'loading' && <div className='loading'>Loading fetching data</div>}
+        {status === 'error' && (
+          <div className="loading">Error fetching data</div>
+        )}
+        {status === 'loading' && (
+          <div className="loading">Loading fetching data</div>
+        )}
         {status === 'success' && (
           <>
             <div className="pagination">
@@ -51,7 +57,13 @@ function Planets() {
               </button>
             </div>
             <div>
-            {isFetching ? <div className='loading'>Loading...</div>:(data.data.results.map((item, index) => (<Planet key={index} planet={item} />)))}
+              {isFetching ? (
+                <div className="loading">Loading...</div>
+              ) : (
+                data.data.results.map((item, index) => (
+                  <Planet key={index} planet={item} />
+                ))
+              )}
             </div>
           </>
         )}
