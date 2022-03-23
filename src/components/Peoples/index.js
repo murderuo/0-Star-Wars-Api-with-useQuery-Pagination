@@ -5,8 +5,10 @@ import React, { useState } from 'react';
 
 const queryClient = new QueryClient();
 
-const fetchPeoples = async (page) => {
-  const response = await axios.get(`http://swapi.dev/api/people/?page=${page}`);
+const fetchPeoples = async page => {
+  const response = await axios.get(
+    `https://swapi.dev/api/people/?page=${page}`,
+  );
   return response;
 };
 
@@ -25,8 +27,12 @@ function Peoples() {
     <>
       <div>
         <h2>Peoples</h2>
-        {status === 'error' && <div>Error fetching data</div>}
-        {status === 'loading' && <div>Loading fetching data</div>}
+        {status === 'error' && (
+          <div className="loading">Error fetching data</div>
+        )}
+        {status === 'loading' && (
+          <div className="loading">Loading fetching data</div>
+        )}
         {status === 'success' && (
           <>
             <div className="pagination">
@@ -49,7 +55,13 @@ function Peoples() {
               </button>
             </div>
             <div>
-            {isFetching ? <div className='loading'>Loading...</div>:(data.data.results.map((item, index) => (<People key={index} people={item} />)))}
+              {isFetching ? (
+                <div className="loading">Loading...</div>
+              ) : (
+                data.data.results.map((item, index) => (
+                  <People key={index} people={item} />
+                ))
+              )}
             </div>
           </>
         )}
